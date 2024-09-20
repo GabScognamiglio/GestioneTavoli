@@ -39,18 +39,6 @@ public class ContactFormController {
         this.bucket = Bucket.builder().addLimit(limit).build();
     }
 
-//    @PostMapping
-//    public String submitContactForm(@RequestBody @Validated ContactFormDTO contactFormDto, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "Dati del form di contatto non validi";
-//        }
-//        if (bucket.tryConsume(1)) {
-//            return contactFormService.saveContactForm(contactFormDto);
-//        } else {
-//            return "Limite di messaggi raggiunto. Riprova più tardi";
-//        }
-//    }
-
     @PostMapping
     public ResponseEntity<?> submitContactForm(@RequestBody @Validated ContactFormDTO contactFormDto, BindingResult bindingResult) {
         logger.info("Received contact form DTO: {}", contactFormDto);
