@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "prenotazioni", uniqueConstraints = {
@@ -28,5 +30,7 @@ public class Prenotazione {
     private String nome;
     private String email;
     private String numeroTel;
+
+
 
 }

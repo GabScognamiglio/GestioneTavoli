@@ -1,5 +1,6 @@
 package it.gestione.tavoli.GestioneTavoli.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Tavolo {
     private int postiMin;
     private int postiMax;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tavolo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prenotazione> prenotazioni;
 

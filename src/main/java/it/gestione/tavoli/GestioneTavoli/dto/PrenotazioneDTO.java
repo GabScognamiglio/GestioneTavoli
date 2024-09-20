@@ -29,7 +29,7 @@ public class PrenotazioneDTO {
     private String nome;
     @Email
     private String email;
-    @NotBlank(message = "Il telefono non può essere nullo")
+    @NotBlank(message = "Il telefo non può essere nullo")
     private String numeroTel;
 
 }
