@@ -71,7 +71,6 @@ public class PrenotazioneService {
 
 
     public List<Map<String, Object>> getDisponibilitaPerData(LocalDate data) {
-        // Orari da controllare
         List<LocalTime> orari = Arrays.asList(
                 LocalTime.of(13, 0),
                 LocalTime.of(14, 30),
@@ -81,22 +80,17 @@ public class PrenotazioneService {
         );
 
         List<Tavolo> tavoli = tavoloRepository.findAll();
+        tavoli.sort(Comparator.comparing(Tavolo::getId));
 
         List<Map<String, Object>> disponibilitaTavoli = new ArrayList<>();
 
         for (Tavolo tavolo : tavoli) {
-            // Trova le prenotazioni per quel tavolo e data
             List<Prenotazione> prenotazioni = prenotazioneRepository.findByTavoloIdAndData(tavolo.getId(), data);
-
-            // Crea una mappa con la disponibilità oraria
             Map<String, Boolean> disponibilitaOraria = new HashMap<>();
 
-            // Cicla su tutti gli orari
             for (LocalTime ora : orari) {
-                // Verifica se esiste una prenotazione per quell'orario
                 boolean isDisponibile = prenotazioni.stream()
                         .noneMatch(p -> p.getOra().equals(ora));
-
                 disponibilitaOraria.put(ora.toString(), isDisponibile);
             }
 
@@ -109,6 +103,7 @@ public class PrenotazioneService {
 
         return disponibilitaTavoli;
     }
+
 
 
 }

@@ -23,7 +23,7 @@ public class TavoloInitializer implements CommandLineRunner {
 
             // Tavoli 4-9 (4-6 posti)
             for (int i = 4; i <= 9; i++) {
-                tavoloRepository.save(new Tavolo(i, 4, 6));
+                tavoloRepository.save(new Tavolo(i, 3, 6));
             }
 
             // Tavoli 10-15 (1-2 posti)
