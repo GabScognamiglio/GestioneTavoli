@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +30,9 @@ public class PrenotazioneService {
 
     @Autowired
     private TavoloRepository tavoloRepository;
+
+    @Autowired
+    private JavaMailSender emailSender;
 
     private static final List<LocalTime> ORARI_PERMESSI = Arrays.asList(
             LocalTime.of(13, 0),
@@ -65,6 +70,23 @@ public class PrenotazioneService {
         prenotazione.setNome(prenotazioneDTO.getNome());
         prenotazione.setEmail(prenotazioneDTO.getEmail());
         prenotazione.setNumeroTel(prenotazioneDTO.getNumeroTel());
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(prenotazione.getEmail());
+        message.setSubject("Conferma Prenotazione Gab's Ristorante");
+        message.setText("Gentile " + prenotazione.getNome() + ",\n\n" +
+                "La ringraziamo per aver scelto Gab's Ristorante.\n" +
+                "Siamo lieti di confermare la Sua prenotazione con i seguenti dettagli:\n\n" +
+                "Tavolo: " + prenotazione.getTavolo().getId() + "\n" +
+                "Data: " + prenotazione.getData() + "\n" +
+                "Ora: " + prenotazione.getOra() + "\n" +
+                "Numero di persone: " + prenotazione.getPersone() + "\n\n" +
+                "Se ha bisogno di modificare o cancellare la prenotazione, non esiti a contattarci.\n" +
+                "Numero di telefono fornito: " + prenotazione.getNumeroTel() + "\n\n" +
+                "A presto,\n" +
+                "Gab's Ristorante");
+
+        emailSender.send(message);
 
         return prenotazioneRepository.save(prenotazione);
     }
